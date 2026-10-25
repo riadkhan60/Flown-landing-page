@@ -1,0 +1,8 @@
+{
+  "name": "flown-landing-page",
+  "private": true,
+  "description": "The marketing page for Flown, a screen recorder for Windows",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  }
+}
