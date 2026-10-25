@@ -439,8 +439,10 @@ kbd {
 }
 /* While playing, each gets a layer of its own, so moving or fading it doesn't re-raster the app
    beneath; paused, the frame is drawn as one picture again. Opacity, even for the cursor: on a
-   will-change: transform layer it isn't re-rastered as the camera zooms, and goes soft. */
-.is-playing :is(.app-menu, .app-toast, .app-palette, .app-scrim, .ripple, .cursor) { will-change: opacity; }
+   will-change: transform layer it isn't re-rastered as the camera zooms, and goes soft. The export
+   menu stays in the picture: on a layer, its text can land a device pixel off at scales like 125%,
+   and stay there after a pause. */
+.is-playing :is(.app-toast, .app-palette, .app-scrim, .ripple, .cursor) { will-change: opacity; }
 
 .keys {
   position: absolute;
