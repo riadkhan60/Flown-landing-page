@@ -293,6 +293,11 @@ kbd {
   transform-origin: 0 0; /* demo.js scales it to the stage */
   overflow: hidden;
 }
+/* demo.js fits the frame to the stage. This does the same in CSS, the stage's width over 1280px, so
+   the frame is already scaled at the first paint, before the script has arrived and run.
+   tan(atan2()) is how CSS divides one length by another. */
+.stage { container-type: inline-size; }
+.frame { transform: scale(tan(atan2(100cqw, 1280px))); }
 .scene {
   position: absolute;
   inset: 0;
