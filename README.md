@@ -4,16 +4,18 @@ The marketing page for [Flown](https://github.com/samiulakhan12/windows-screen-s
 open-source screen recorder for Windows.
 
 It is a static page with no dependencies: one HTML file, one stylesheet and one small script. A
-small build inlines the stylesheet into the page for production. The only external request is the
-Archivo font from Google Fonts.
+small build inlines the stylesheet into the page for production. Everything is served from the
+site itself, fonts included, so a visit makes three requests: the page, one font file and the demo
+script.
 
 ```
-index.html        the page
-styles.css        all styles; colour and type tokens are at the top
-demo.js           the editor demo in the hero
-assets/           the app icon, used as the favicon
-scripts/build.mjs builds the deployable site into dist/
-vercel.json       build and caching settings for Vercel
+index.html           the page
+styles.css           all styles; colour and type tokens are at the top
+demo.js              the editor demo in the hero
+assets/              the app icon (favicon) and the fonts
+scripts/build.mjs    builds the deployable site into dist/
+tools/build-fonts.py rebuilds the fonts in assets/fonts when the copy changes
+vercel.json          build and caching settings for Vercel
 ```
 
 ## Preview
@@ -84,6 +86,37 @@ time, the same way Flown's own compositor does, so playing, scrubbing and loopin
 The demo plays while it is on screen and stops when it scrolls away. With *reduce motion* turned on,
 it starts paused on a zoomed-in frame. The playhead can be dragged, or moved with the arrow keys
 (hold Shift for one-second steps).
+
+`render(t)` only writes what changed since the last frame. While the demo plays, the parts that
+move or fade over the recording (cursor, ripple, toasts, palette and its scrim) and the playhead get
+compositor layers of their own; the overlays live in `.card-over`, outside the card's rounded clip,
+for that reason. Paused, everything is drawn as one picture again, so a paused frame looks the same
+however you got to it.
+
+## Fonts
+
+Archivo is self-hosted in `assets/fonts` under the SIL Open Font License (`assets/fonts/OFL.txt`),
+cut down to the widths the page uses. It comes in two files, split by `unicode-range`:
+
+- `archivo-<hash>.woff2` holds exactly the characters on the page and is preloaded.
+- `archivo-ext-<hash>.woff2` holds the rest of ASCII and Latin-1 and the usual punctuation. It only
+  downloads if the page uses one of its characters.
+
+Until the font arrives, text is set in Arial scaled to Archivo's widths and line height
+(`Archivo Fallback` and, for the wide headings, `Archivo Wide Fallback`), so nothing moves when it
+swaps in. If you set something new in the wide style, give it `font-family: var(--font-wide)` too.
+
+When the copy gains a character, the page still works: the character comes from the ext file, at
+the cost of a second download. To fold it into the preloaded file, run
+
+```bash
+pip install fonttools brotli
+python3 tools/build-fonts.py <archivo-latin.woff2>
+```
+
+(the script's header says where to get the source file), then copy the printed file names and
+`unicode-range`s into the `@font-face` rules in `styles.css` and the preload in `index.html`. The
+script fails if the page uses a character neither file has.
 
 ## Before launch
 

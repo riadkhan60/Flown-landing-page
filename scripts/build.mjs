@@ -43,7 +43,7 @@ function publish(rel) {
     const data = fs.readFileSync(file)
     let out = rel
     if (LEAF.test(rel)) {
-      // A name that already holds the start of the file's hash (archivo-9fff9ccb.woff2) is kept.
+      // A name that already holds the start of the file's hash (archivo-e2a4c3c6.woff2) is kept.
       const { name, ext } = path.posix.parse(rel)
       const hash = crypto.createHash('sha256').update(data).digest('hex')
       const named = name.match(/[\da-f]{8,}/gi)?.some((h) => hash.startsWith(h.toLowerCase()))

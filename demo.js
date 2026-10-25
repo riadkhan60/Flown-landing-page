@@ -246,8 +246,10 @@ function setup() {
     const label = formatTime(time)
     if (changed(timeNow, 'text', label)) timeNow.data = label
     placePlayhead(time)
-    setAttr(playhead, 'aria-valuenow', time.toFixed(1))
-    setAttr(playhead, 'aria-valuetext', label)
+    // While playing, screen readers get the time once a second rather than ten times.
+    const spoken = playing ? Math.floor(time) : time
+    setAttr(playhead, 'aria-valuenow', spoken.toFixed(1))
+    setAttr(playhead, 'aria-valuetext', playing ? formatTime(spoken) : label)
   }
 
   function tick(now) {

@@ -16,9 +16,12 @@
 # 400..780 too would save another 3 KB, but it rescales and rounds the deltas, which
 # shows up as changed pixels.
 #
-# Two files: "core" has every character the page uses plus ASCII and the usual
-# punctuation, and is preloaded. "ext" has the rest of Latin-1 and is only downloaded
-# if the page ever uses one of its characters. Same input, same bytes, same names.
+# Two files: "core" has exactly the characters the page uses (read from index.html and
+# demo.js), and is preloaded. "ext" has the rest of ASCII and Latin-1 and the usual
+# punctuation, and is only downloaded if the page ever uses one of its characters. So
+# after changing the copy, run this again and update the names and unicode-ranges;
+# until then new characters still render, from the ext file. Same input, same bytes,
+# same names.
 
 import hashlib
 import html.parser
@@ -33,25 +36,24 @@ from fontTools.varLib import instancer
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'assets', 'fonts')
 
-CORE = sorted(
+# Every character the page could reasonably use; whatever the page doesn't use goes in ext.
+MARGIN = (
     set(range(0x20, 0x7F))
     | {0xA0, 0xAD, 0xD7}                   # nbsp, soft hyphen, ×
     | set(map(ord, '–—‘’“”•…'))
-)
-EXT = sorted(
-    set(map(ord, '©®°·«»÷±£¥¢'))
+    | set(map(ord, '©®°·«»÷±£¥¢'))
     | {u for u in range(0xC0, 0x100) if chr(u).isalpha()}
     | set(map(ord, 'ıŒœ‚„′″‹›€™−'))
 )
 
 
-def build(src, unicodes):
+def build(src, unicodes, features):
     font = instancer.instantiateVariableFont(TTFont(src), {'wdth': (100, 125)}, updateFontNames=False)
     font['fvar'].instances = []  # named instances are for font menus
     if 'STAT' in font:
         del font['STAT']
     opts = subset.Options()
-    opts.layout_features = ['kern', 'liga', 'tnum', 'rvrn']  # rvrn swaps $ and ¢ from weight 500
+    opts.layout_features = features
     opts.name_IDs = [0, 1, 2, 3, 4, 5, 6, 13, 14]  # keep the copyright and licence records
     opts.notdef_outline = True
     opts.recalc_bounds = True
@@ -104,8 +106,13 @@ def page_chars():
 def main(src):
     os.makedirs(OUT, exist_ok=True)
     cmaps, written = {}, set()
-    for name, unicodes in (('archivo', CORE), ('archivo-ext', EXT)):
-        font, opts = build(src, unicodes)
+    core = sorted({ord(c) for c in page_chars()} | {0x20, 0xA0})
+    ext = sorted(MARGIN - set(core))
+    # rvrn swaps $ and ¢ from weight 500. ccmp only picks the capital forms of ` ^ ~, which
+    # are in ext; in core it would pull in glyphs the page never shows.
+    features = ['kern', 'liga', 'tnum', 'rvrn']
+    for name, unicodes, feats in (('archivo', core, features), ('archivo-ext', ext, features + ['ccmp'])):
+        font, opts = build(src, unicodes, feats)
         tmp = os.path.join(OUT, name + '.tmp')
         subset.save_font(font, tmp, opts)
         with open(tmp, 'rb') as f:
@@ -125,9 +132,9 @@ def main(src):
     in_ext = sorted(c for c in chars if ord(c) not in cmaps['archivo'] and ord(c) in cmaps['archivo-ext'])
     print(f'{len(chars)} characters on the page')
     if in_ext:
-        print('  in the ext file, so it will be downloaded too (add them to CORE):', ' '.join(in_ext))
+        print('  in the ext file, so it will be downloaded too:', ' '.join(in_ext))
     if missing:
-        print('  MISSING from both files (add them to CORE or EXT):', ' '.join(f'{c} U+{ord(c):04X}' for c in missing))
+        print('  MISSING from both files (add them to MARGIN):', ' '.join(f'{c} U+{ord(c):04X}' for c in missing))
         sys.exit(1)
 
 
