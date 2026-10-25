@@ -254,6 +254,7 @@ function setup() {
     if (playing) return
     playing = true
     last = performance.now()
+    root.classList.add('is-playing')
     playBtn.classList.add('is-playing')
     playBtn.setAttribute('aria-label', 'Pause')
     raf = requestAnimationFrame(tick)
@@ -262,6 +263,7 @@ function setup() {
   function pause() {
     playing = false
     cancelAnimationFrame(raf)
+    root.classList.remove('is-playing')
     playBtn.classList.remove('is-playing')
     playBtn.setAttribute('aria-label', 'Play')
     render(t)

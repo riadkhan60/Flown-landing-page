@@ -371,7 +371,7 @@ kbd {
 }
 .app-toast svg { width: 18px; height: 18px; flex: none; }
 
-.app-scrim { position: absolute; inset: 0; background: rgba(29, 26, 41, 0.28); opacity: 0; }
+.app-scrim { position: absolute; inset: 0; border-radius: 0 0 14px 14px; background: rgba(29, 26, 41, 0.28); opacity: 0; }
 .app-palette {
   position: absolute;
   left: 290px;
@@ -399,7 +399,21 @@ kbd {
 .pal-item { display: flex; align-items: center; height: 44px; margin: 0 8px; padding: 0 12px; border-radius: 8px; font-size: 15px; }
 .pal-item.is-hover { background: #f1eefc; color: #3d25c4; }
 
-.fx { position: absolute; left: 0; top: 36px; width: 1080px; height: 572px; pointer-events: none; }
+/* What moves or fades over the app sits over the card rather than in it, out of the card's rounded
+   clip: under that clip, layers of their own would cost an offscreen pass every frame. A plain clip
+   still trims the toast shadows at the card's edge, and the scrim rounds its own corners. */
+.card-over {
+  position: absolute;
+  left: 100px;
+  top: 56px;
+  width: 1080px;
+  height: 608px;
+  overflow: hidden;
+  color: #1d1a29;
+  font-size: 15px;
+  pointer-events: none;
+}
+.fx { position: absolute; left: 0; top: 36px; width: 1080px; height: 572px; }
 .cursor {
   position: absolute;
   left: 0;
@@ -423,6 +437,10 @@ kbd {
   box-shadow: 0 0 0 2px rgba(109, 74, 255, 0.5);
   opacity: 0;
 }
+/* While playing, each gets a layer of its own, so moving or fading it doesn't re-raster the app
+   beneath; paused, the frame is drawn as one picture again. Opacity, even for the cursor: on a
+   will-change: transform layer it isn't re-rastered as the camera zooms, and goes soft. */
+.is-playing :is(.app-menu, .app-toast, .app-palette, .app-scrim, .ripple, .cursor) { will-change: opacity; }
 
 .keys {
   position: absolute;
