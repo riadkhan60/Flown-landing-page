@@ -5,8 +5,8 @@ open-source screen recorder for Windows.
 
 It is a static page with no dependencies: one HTML file, one stylesheet and one small script. A
 small build inlines the stylesheet into the page for production. Everything is served from the
-site itself, fonts included, so a visit makes three requests: the page, one font file and the demo
-script.
+site itself, fonts included, so a visit makes four requests: the page, one font file, the demo
+script and the favicon.
 
 ```
 index.html           the page
