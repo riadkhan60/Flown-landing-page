@@ -454,6 +454,7 @@ kbd {
   backdrop-filter: blur(8px);
   transform: translateX(-50%);
   opacity: 0;
+  visibility: hidden;
 }
 .keys kbd {
   min-width: 52px;
@@ -491,7 +492,13 @@ kbd {
 .play.is-playing .i-play { display: none; }
 .play.is-playing .i-pause { display: block; }
 .play:focus-visible { outline-color: #fff; border-radius: 50%; }
-.time { font-size: 0.9375rem; font-variant-numeric: tabular-nums; color: var(--night-text-2); }
+.time {
+  position: relative;
+  isolation: isolate; /* its own paint layer: the readout changes ten times a second */
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--night-text-2);
+}
 .time span { color: var(--night-text); }
 .transport-hint { margin-left: auto; font-size: 0.8125rem; color: var(--night-text-2); }
 

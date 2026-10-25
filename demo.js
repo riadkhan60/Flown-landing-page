@@ -228,9 +228,11 @@ function setup() {
     setStyle(toastRemind, 'opacity', String(toast2))
     setStyle(toastRemind, 'transform', `translateY(${lerp(12, 0, toast2)}px)`)
 
-    // Keystroke overlay, drawn over the output frame
+    // Keystroke overlay, drawn over the output frame. Hidden, not just transparent, while it's out:
+    // even at opacity 0 its backdrop blur costs the GPU every frame.
     const keysOn = during(time, 7.0, 8.6, 0.14)
     setStyle(keys, 'opacity', String(keysOn))
+    setStyle(keys, 'visibility', keysOn > 0 ? 'visible' : 'hidden')
     setStyle(keys, 'transform', `translateX(-50%) translateY(${lerp(10, 0, keysOn)}px)`)
 
     // Transport. The readout's text node is rewritten in place, which skips the restyle.
