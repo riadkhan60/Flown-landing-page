@@ -1,5 +1,25 @@
 /* Flown landing page */
 
+/* Archivo, self-hosted and cut to the widths the page uses (tools/build-fonts.py).
+   The first file has every character on the page and is preloaded; the second has
+   the rest of Latin-1 and only downloads if the copy ever uses one of them. */
+@font-face {
+  font-family: 'Archivo';
+  src: url('assets/fonts/archivo-9fff9ccb.woff2') format('woff2');
+  font-weight: 100 900;
+  font-stretch: 100% 125%;
+  font-display: swap;
+  unicode-range: U+20-7E, U+A0, U+AD, U+D7, U+2013-2014, U+2018-2019, U+201C-201D, U+2022, U+2026;
+}
+@font-face {
+  font-family: 'Archivo';
+  src: url('assets/fonts/archivo-ext-277b9008.woff2') format('woff2');
+  font-weight: 100 900;
+  font-stretch: 100% 125%;
+  font-display: swap;
+  unicode-range: U+A2-A3, U+A5, U+A9, U+AB, U+AE, U+B0-B1, U+B7, U+BB, U+C0-D6, U+D8-FF, U+131, U+152-153, U+201A, U+201E, U+2032-2033, U+2039-203A, U+20AC, U+2122, U+2212;
+}
+
 :root {
   /* Page */
   --paper: #f5f4f9;
