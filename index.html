@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Flown, a screen recorder for Windows</title>
   <meta name="description" content="Flown is a free, open-source screen recorder for Windows. It zooms in where you click, smooths your cursor and puts your recording on a clean background, then exports for YouTube, X, Reels and more.">
-  <meta name="theme-color" content="#f5f4f9">
+  <meta name="theme-color" content="#f4f5fa">
+  <meta name="author" content="Qbexel">
   <meta property="og:title" content="Flown, a screen recorder for Windows">
   <meta property="og:description" content="Screen recordings that zoom in where you click. Free and open source.">
   <meta property="og:type" content="website">
@@ -19,20 +20,7 @@
 
   <header class="nav wrap">
     <a class="brand" href="#top" aria-label="Flown home">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
-        <defs>
-          <linearGradient id="brand-bg" x1="3" y1="2" x2="29" y2="30" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#7b3cf0"/><stop offset="0.52" stop-color="#b42ad6"/><stop offset="1" stop-color="#f0468f"/>
-          </linearGradient>
-        </defs>
-        <rect x="1" y="1" width="30" height="30" rx="7" fill="url(#brand-bg)"/>
-        <rect x="5" y="7" width="22" height="16" rx="2.5" fill="#fff" fill-opacity="0.16" stroke="#fff" stroke-width="2"/>
-        <g transform="translate(14.34 11) scale(0.135)">
-          <path d="M0 0 V108 L27 82 L44 122 L62 114 L45 75 H82 Z" fill="#2b1061" stroke="#2b1061" stroke-width="26" stroke-linejoin="round"/>
-          <path d="M0 0 V108 L27 82 L44 122 L62 114 L45 75 H82 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
-        </g>
-      </svg>
-      <span>Flown</span>
+      <img class="brand-logo" src="assets/brand/flown-logo.svg" width="93" height="30" alt="">
     </a>
     <nav class="nav-links" aria-label="Sections">
       <a href="#editor">Editor</a>
@@ -279,7 +267,7 @@
           <li class="track-row">
             <div class="track-copy">
               <h3>Captions from what you said.</h3>
-              <p>Generate them with your own OpenAI or Gemini key, then correct any line on its own track. Choose from five styles, including word-by-word highlighting, or export SRT and VTT files.</p>
+              <p>Generate them with your own OpenAI or Gemini key, long recordings included, then fix any line in the transcript editor or move it on its own track. Five styles, including word-by-word highlighting, right-to-left languages, and SRT, VTT or text files that follow your cuts.</p>
             </div>
             <div class="mini" aria-hidden="true">
               <span class="mini-name">Captions</span>
@@ -293,7 +281,7 @@
           <li class="track-row">
             <div class="track-copy">
               <h3>Put your webcam where it helps.</h3>
-              <p>A circle, rounded or square bubble with a border and shadow. The background behind you can be blurred, on your PC. Switch layouts as you go: bubble, side by side, large camera or camera only.</p>
+              <p>While you record, your webcam floats on screen as a bubble that stays out of the capture. Drag it or snap it to a corner, and the video moves the camera to match. Afterwards, pick a circle, rounded or square bubble, blur the room behind you on your PC, and switch layouts as you go: bubble, side by side, large camera or camera only.</p>
             </div>
             <div class="mini" aria-hidden="true">
               <span class="mini-name">Camera</span>
@@ -313,8 +301,8 @@
     <section class="section section-tight" aria-labelledby="setup-title">
       <div class="wrap">
         <div class="section-head">
-          <h2 id="setup-title">Set it up once.</h2>
-          <p>Save your recording setup as a preset and your look as the default style. Every new recording starts the way you like it.</p>
+          <h2 id="setup-title">Before, during and after the edit.</h2>
+          <p>Save your recording setup as a preset and your look as the default style, so every new recording starts the way you like it.</p>
         </div>
         <div class="kit">
           <div class="kit-group">
@@ -327,6 +315,17 @@
               <li>Pauses itself when you step away</li>
               <li>Hides desktop icons while you record</li>
               <li>Written to disk as you go, so a crash doesn’t lose the take</li>
+            </ul>
+          </div>
+          <div class="kit-group">
+            <h3>While you record</h3>
+            <ul>
+              <li>A small bar on top of everything, kept out of the video</li>
+              <li>Recorded time, pause and resume</li>
+              <li>Mute the microphone</li>
+              <li>Hide or show the camera bubble; the camera keeps recording</li>
+              <li>Restart to throw the take away and record again</li>
+              <li>Discard, with a confirm step, or stop</li>
             </ul>
           </div>
           <div class="kit-group">
@@ -358,6 +357,17 @@
               <li>Fade in and out</li>
               <li>Background music that gets quieter while you talk</li>
               <li>Remove silences in one step</li>
+            </ul>
+          </div>
+          <div class="kit-group">
+            <h3>Transcript tools</h3>
+            <ul>
+              <li>Clean up punctuation and obvious mistakes, keeping the timings</li>
+              <li>Translate the captions</li>
+              <li>Suggest chapters</li>
+              <li>Write a title and a summary</li>
+              <li>With OpenAI, Gemini or Claude, using your own key</li>
+              <li>Only the transcript text is sent</li>
             </ul>
           </div>
         </div>
@@ -460,6 +470,10 @@
             <p>Windows 10 version 2004 or later, and Windows 11. On these, Flown records screens, areas and single windows without the Windows cursor, so it can draw its own smooth one in its place.</p>
           </details>
           <details>
+            <summary>Do I need an AI key?</summary>
+            <p>Only for captions and the transcript tools. Captions need an OpenAI or Gemini key; clean-up, translation, chapters, titles and summaries also work with Claude. Everything else works without one.</p>
+          </details>
+          <details>
             <summary>Why does Windows warn me when I run the installer?</summary>
             <p>The installer isn’t code-signed yet, so Microsoft Defender SmartScreen shows “Windows protected your PC” the first time you run it. Select <strong>More info</strong>, then <strong>Run anyway</strong>.</p>
           </details>
@@ -492,7 +506,7 @@
   </main>
 
   <footer class="footer wrap">
-    <p>Flown is open source under the MIT license. Built with Electron, React, Rust and ffmpeg.</p>
+    <p>Flown is made by <a href="https://qbexel.com">Qbexel</a> and is open source under the MIT license.</p>
     <ul>
       <li><a href="https://github.com/samiulakhan12/windows-screen-studio">GitHub</a></li>
       <li><a href="https://github.com/samiulakhan12/windows-screen-studio/issues">Report a problem</a></li>

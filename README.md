@@ -5,14 +5,14 @@ open-source screen recorder for Windows.
 
 It is a static page with no dependencies: one HTML file, one stylesheet and one small script. A
 small build inlines the stylesheet into the page for production. Everything is served from the
-site itself, fonts included, so a visit makes four requests: the page, one font file, the demo
-script and the favicon.
+site itself, fonts included, so a visit makes five requests: the page, one font file, the demo
+script, the logo and the favicon.
 
 ```
 index.html           the page
 styles.css           all styles; colour and type tokens are at the top
 demo.js              the editor demo in the hero
-assets/              the app icon (favicon) and the fonts
+assets/              the favicon, the logo (assets/brand, with BRAND.md) and the fonts
 scripts/build.mjs    builds the deployable site into dist/
 tools/build-fonts.py rebuilds the fonts in assets/fonts when the copy changes
 vercel.json          build and caching settings for Vercel

@@ -63,15 +63,15 @@
 
 :root {
   /* Page */
-  --paper: #f5f4f9;
-  --paper-band: #ebe9f2;
-  --ink: #1a1430;
-  --ink-2: #4b4562;
-  --ink-3: #6b6584;
-  --line: #dcd8e7;
-  --violet: #6d4aff;
-  --violet-hover: #5b37f2;
-  --violet-ring: #8f75ff;
+  --paper: #f4f5fa;
+  --paper-band: #e9ebf3;
+  --ink: #0d0f1c;
+  --ink-2: #45485e;
+  --ink-3: #64677e;
+  --line: #d9dbe7;
+  --violet: #6252fc;
+  --violet-hover: #5443ec;
+  --violet-ring: #6b5dfd;
 
   /* Editor (matches the app) */
   --night: #16141d;
@@ -208,19 +208,9 @@ kbd {
   gap: 32px;
   height: 72px;
 }
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-right: auto;
-  font-family: var(--font-wide);
-  font-size: 1.25rem;
-  font-weight: 760;
-  font-variation-settings: 'wdth' 125;
-  letter-spacing: -0.01em;
-  text-decoration: none;
-}
-.brand-mark { width: 28px; height: 28px; }
+.brand { display: inline-flex; margin-right: auto; }
+/* The kit's horizontal logo (assets/brand/flown-logo.svg), 30 px tall. */
+.brand-logo { width: auto; height: 30px; }
 .nav-links { display: flex; gap: 28px; font-size: 0.9375rem; }
 .nav-links a { color: var(--ink-2); text-decoration: none; }
 .nav-links a:hover { color: var(--ink); }
@@ -308,11 +298,11 @@ kbd {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(60% 70% at 12% 8%, #7b3cf0 0%, rgba(123, 60, 240, 0) 70%),
-    radial-gradient(55% 60% at 88% 18%, #c03adf 0%, rgba(192, 58, 223, 0) 70%),
-    radial-gradient(60% 65% at 78% 105%, #f0468f 0%, rgba(240, 70, 143, 0) 72%),
-    radial-gradient(50% 55% at 6% 100%, #ffb36b 0%, rgba(255, 179, 107, 0) 70%),
-    #2a1670;
+    radial-gradient(60% 70% at 12% 8%, #6252fc 0%, rgba(98, 82, 252, 0) 70%),
+    radial-gradient(55% 60% at 88% 18%, #8b3aff 0%, rgba(139, 58, 255, 0) 70%),
+    radial-gradient(60% 65% at 78% 105%, #4d9bff 0%, rgba(77, 155, 255, 0) 72%),
+    radial-gradient(50% 55% at 6% 100%, #3fcbff 0%, rgba(63, 203, 255, 0) 70%),
+    #161a4a;
 }
 
 .card {
@@ -502,8 +492,8 @@ kbd {
   margin: -36px 0 0 -36px;
   border-radius: 50%;
   border: 3px solid rgba(255, 255, 255, 0.95);
-  background: rgba(125, 95, 255, 0.35);
-  box-shadow: 0 0 0 2px rgba(109, 74, 255, 0.5);
+  background: rgba(98, 82, 252, 0.35);
+  box-shadow: 0 0 0 2px rgba(98, 82, 252, 0.5);
   opacity: 0;
 }
 /* While playing, each gets a layer of its own, so moving or fading it doesn't re-raster the app
@@ -780,7 +770,7 @@ kbd {
 /* Kit */
 .kit {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 40px 32px;
 }
 .kit-group h3 {
@@ -820,11 +810,11 @@ kbd {
   border-radius: 10px;
   overflow: hidden;
   background:
-    radial-gradient(60% 70% at 12% 8%, #7b3cf0 0%, rgba(123, 60, 240, 0) 70%),
-    radial-gradient(55% 60% at 88% 18%, #c03adf 0%, rgba(192, 58, 223, 0) 70%),
-    radial-gradient(60% 65% at 78% 105%, #f0468f 0%, rgba(240, 70, 143, 0) 72%),
-    radial-gradient(50% 55% at 6% 100%, #ffb36b 0%, rgba(255, 179, 107, 0) 70%),
-    #2a1670;
+    radial-gradient(60% 70% at 12% 8%, #6252fc 0%, rgba(98, 82, 252, 0) 70%),
+    radial-gradient(55% 60% at 88% 18%, #8b3aff 0%, rgba(139, 58, 255, 0) 70%),
+    radial-gradient(60% 65% at 78% 105%, #4d9bff 0%, rgba(77, 155, 255, 0) 72%),
+    radial-gradient(50% 55% at 6% 100%, #3fcbff 0%, rgba(63, 203, 255, 0) 70%),
+    #161a4a;
 }
 .format-square { width: min(100%, 210px); }
 .format-small { width: min(100%, 190px); }
