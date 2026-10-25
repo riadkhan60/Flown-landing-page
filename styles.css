@@ -219,7 +219,6 @@ kbd {
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: #0d0c12;
-  --k: 1;
 }
 .frame {
   position: absolute;
@@ -227,8 +226,7 @@ kbd {
   top: 0;
   width: 1280px;
   height: 720px;
-  transform: scale(var(--k));
-  transform-origin: 0 0;
+  transform-origin: 0 0; /* demo.js scales it to the stage */
   overflow: hidden;
 }
 .scene {
@@ -587,6 +585,7 @@ kbd {
   margin-left: -1px;
   background: var(--playhead);
   z-index: 2;
+  will-change: transform; /* demo.js moves it every frame */
 }
 .playhead::before {
   content: '';

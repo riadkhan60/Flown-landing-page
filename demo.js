@@ -91,7 +91,7 @@ function cameraAt(t) {
   const e = easeInOut(u)
   const s = lerp(a.s, b.s, e)
   const fa = focusPoint(a.f, t)
-  const fb = focusPoint(b.f, t)
+  const fb = b.f === a.f ? fa : focusPoint(b.f, t)
   let cx = lerp(fa.x, fb.x, e)
   let cy = lerp(fa.y, fb.y, e)
   // Keep the view inside the frame, and inside the recording once zoomed in.
@@ -120,6 +120,7 @@ function setup() {
   if (!root) return
   const $ = (id) => document.getElementById(id)
   const stage = $('stage')
+  const frame = $('frame')
   const scene = $('scene')
   const cursor = $('cursor')
   const ripple = $('ripple')
@@ -134,7 +135,7 @@ function setup() {
   const remind = $('pal-remind')
   const keys = $('keys')
   const playBtn = $('play')
-  const timeNow = $('time-now')
+  const timeNow = $('time-now').firstChild
   const lanes = $('lanes')
   const playhead = $('playhead')
 
@@ -146,19 +147,48 @@ function setup() {
   let inView = false
   let last = 0
   let raf = 0
+  let laneLeft = 0
+  let laneWidth = 0
+
+  // Most of the frame holds still most of the time, so render() only writes what changed since the
+  // last frame. Setting textContent, even to the same string, makes the browser restyle and lay out
+  // the page again, and every style write is parsed before the browser can tell it's the same.
+  const written = new Map()
+  function changed(node, key, value) {
+    let was = written.get(node)
+    if (!was) written.set(node, (was = {}))
+    if (was[key] === value) return false
+    was[key] = value
+    return true
+  }
+  const setStyle = (el, prop, value) => {
+    if (changed(el, prop, value)) el.style[prop] = value
+  }
+  const setClass = (el, name, on) => {
+    if (changed(el, name, on)) el.classList.toggle(name, on)
+  }
+  const setAttr = (el, name, value) => {
+    if (changed(el, name, value)) el.setAttribute(name, value)
+  }
+
+  // The playhead moves by transform, which needs no layout. Rounding to whole device pixels keeps
+  // its edges as crisp as when it was placed with `left`.
+  function placePlayhead(time) {
+    const dpr = window.devicePixelRatio || 1
+    setStyle(playhead, 'transform', `translateX(${Math.round((time / DURATION) * laneWidth * dpr) / dpr}px)`)
+  }
 
   function render(time) {
     // Camera, with a touch of motion blur while it moves
     const cam = cameraAt(time)
-    scene.style.transform = `translate(${cam.tx}px, ${cam.ty}px) scale(${cam.s})`
+    setStyle(scene, 'transform', `translate(${cam.tx}px, ${cam.ty}px) scale(${cam.s})`)
+    let blur = 0
     if (playing && !reduceMotion.matches) {
       const prev = cameraAt(Math.max(0, time - 1 / 60))
       const moved = Math.hypot(cam.tx - prev.tx, cam.ty - prev.ty) + Math.abs(cam.s - prev.s) * 900
-      const blur = clamp((moved - 1.5) * 0.12, 0, 1.6)
-      scene.style.filter = blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : ''
-    } else {
-      scene.style.filter = ''
+      blur = clamp((moved - 1.5) * 0.12, 0, 1.6)
     }
+    setStyle(scene, 'filter', blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : '')
 
     // Cursor and clicks
     const p = cursorAt(time)
@@ -170,44 +200,45 @@ function setup() {
       if (d >= 0 && d < 0.55) {
         const u = d / 0.55
         const at = cursorAt(c)
-        ripple.style.transform = `translate(${at.x}px, ${at.y}px) scale(${lerp(0.25, 1, 1 - Math.pow(1 - u, 3))})`
-        ripple.style.opacity = String(0.9 * (1 - u))
+        setStyle(ripple, 'transform', `translate(${at.x}px, ${at.y}px) scale(${lerp(0.25, 1, 1 - Math.pow(1 - u, 3))})`)
+        setStyle(ripple, 'opacity', String(0.9 * (1 - u)))
         rippleOn = true
       }
     }
-    if (!rippleOn) ripple.style.opacity = '0'
-    cursor.style.transform = `translate(${p.x}px, ${p.y}px) scale(${press})`
+    if (!rippleOn) setStyle(ripple, 'opacity', '0')
+    setStyle(cursor, 'transform', `translate(${p.x}px, ${p.y}px) scale(${press})`)
 
     // The recorded app
-    exportBtn.classList.toggle('is-pressed', time > 1.78 && time < 2.0)
+    setClass(exportBtn, 'is-pressed', time > 1.78 && time < 2.0)
     const menuOn = during(time, 1.95, 3.5, 0.12)
-    menu.style.opacity = String(menuOn)
-    menu.style.transform = `scale(${lerp(0.96, 1, menuOn)})`
-    menuPdf.classList.toggle('is-hover', time > 2.95 && time < 3.5)
+    setStyle(menu, 'opacity', String(menuOn))
+    setStyle(menu, 'transform', `scale(${lerp(0.96, 1, menuOn)})`)
+    setClass(menuPdf, 'is-hover', time > 2.95 && time < 3.5)
     const toast1 = during(time, 3.7, 6.6, 0.22)
-    toastPdf.style.opacity = String(toast1)
-    toastPdf.style.transform = `translateY(${lerp(12, 0, toast1)}px)`
+    setStyle(toastPdf, 'opacity', String(toast1))
+    setStyle(toastPdf, 'transform', `translateY(${lerp(12, 0, toast1)}px)`)
     const palOn = during(time, 7.12, 9.62, 0.14)
-    palette.style.opacity = String(palOn)
-    palette.style.transform = `translateY(${lerp(-8, 0, palOn)}px) scale(${lerp(0.98, 1, palOn)})`
-    scrim.style.opacity = String(palOn)
-    typed.textContent = 'remind'.slice(0, clamp(Math.floor((time - 7.6) / 0.11), 0, 6))
-    remind.classList.toggle('is-hover', time > 9.1)
+    setStyle(palette, 'opacity', String(palOn))
+    setStyle(palette, 'transform', `translateY(${lerp(-8, 0, palOn)}px) scale(${lerp(0.98, 1, palOn)})`)
+    setStyle(scrim, 'opacity', String(palOn))
+    const letters = 'remind'.slice(0, clamp(Math.floor((time - 7.6) / 0.11), 0, 6))
+    if (changed(typed, 'text', letters)) typed.textContent = letters
+    setClass(remind, 'is-hover', time > 9.1)
     const toast2 = during(time, 9.8, 11.5, 0.22)
-    toastRemind.style.opacity = String(toast2)
-    toastRemind.style.transform = `translateY(${lerp(12, 0, toast2)}px)`
+    setStyle(toastRemind, 'opacity', String(toast2))
+    setStyle(toastRemind, 'transform', `translateY(${lerp(12, 0, toast2)}px)`)
 
     // Keystroke overlay, drawn over the output frame
     const keysOn = during(time, 7.0, 8.6, 0.14)
-    keys.style.opacity = String(keysOn)
-    keys.style.transform = `translateX(-50%) translateY(${lerp(10, 0, keysOn)}px)`
+    setStyle(keys, 'opacity', String(keysOn))
+    setStyle(keys, 'transform', `translateX(-50%) translateY(${lerp(10, 0, keysOn)}px)`)
 
-    // Transport
+    // Transport. The readout's text node is rewritten in place, which skips the restyle.
     const label = formatTime(time)
-    timeNow.textContent = label
-    playhead.style.left = `${(time / DURATION) * 100}%`
-    playhead.setAttribute('aria-valuenow', time.toFixed(1))
-    playhead.setAttribute('aria-valuetext', label)
+    if (changed(timeNow, 'text', label)) timeNow.data = label
+    placePlayhead(time)
+    setAttr(playhead, 'aria-valuenow', time.toFixed(1))
+    setAttr(playhead, 'aria-valuetext', label)
   }
 
   function tick(now) {
@@ -251,13 +282,14 @@ function setup() {
     }
   })
 
-  // Scrubbing: click or drag anywhere on the timeline lanes.
-  const timeFromPointer = (e) => {
-    const r = lanes.getBoundingClientRect()
-    return ((e.clientX - r.left) / r.width) * DURATION
-  }
+  // Scrubbing: click or drag anywhere on the timeline lanes. Where they start is read once per drag,
+  // so a pointer move doesn't make the browser lay out what the last one drew before it can answer.
+  const timeFromPointer = (e) => ((e.clientX - laneLeft) / laneWidth) * DURATION
   lanes.addEventListener('pointerdown', (e) => {
     if (e.button !== 0) return
+    const r = lanes.getBoundingClientRect()
+    laneLeft = r.left
+    laneWidth = r.width
     lanes.setPointerCapture(e.pointerId)
     userPaused = true
     pause()
@@ -283,10 +315,20 @@ function setup() {
     }
   })
 
-  // Scale the 1280 x 720 frame to the stage.
-  new ResizeObserver(([entry]) => {
-    stage.style.setProperty('--k', String(entry.contentRect.width / FRAME.w))
-  }).observe(stage)
+  // Scale the 1280 x 720 frame to the stage, and keep the playhead's travel matched to the lanes.
+  // The scale is set on the frame itself: an inherited custom property would restyle all of it.
+  const resized = new ResizeObserver((entries) => {
+    for (const { target, contentRect } of entries) {
+      if (target === stage) {
+        frame.style.transform = `scale(${contentRect.width / FRAME.w})`
+      } else {
+        laneWidth = contentRect.width
+        placePlayhead(t)
+      }
+    }
+  })
+  resized.observe(stage)
+  resized.observe(lanes)
 
   // Play while on screen, unless the visitor paused it or prefers less motion.
   new IntersectionObserver(
