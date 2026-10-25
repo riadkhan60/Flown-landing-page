@@ -612,8 +612,8 @@ kbd {
   margin-left: -1px;
   background: var(--playhead);
   z-index: 2;
-  will-change: transform; /* demo.js moves it every frame */
 }
+.is-playing .playhead { will-change: transform; } /* moved by transform while playing, by left when paused */
 .playhead::before {
   content: '';
   position: absolute;

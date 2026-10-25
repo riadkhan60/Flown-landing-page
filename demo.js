@@ -171,11 +171,18 @@ function setup() {
     if (changed(el, name, value)) el.setAttribute(name, value)
   }
 
-  // The playhead moves by transform, which needs no layout. Rounding to whole device pixels keeps
-  // its edges as crisp as when it was placed with `left`.
+  // While playing, the playhead moves by transform on a layer of its own, which needs no layout;
+  // rounding to whole device pixels keeps its edges crisp. Paused, it's placed with `left`, so layout
+  // snaps it to the pixel grid at any scale, the same way whether it got there by playing or seeking.
   function placePlayhead(time) {
-    const dpr = window.devicePixelRatio || 1
-    setStyle(playhead, 'transform', `translateX(${Math.round((time / DURATION) * laneWidth * dpr) / dpr}px)`)
+    if (playing) {
+      const dpr = window.devicePixelRatio || 1
+      setStyle(playhead, 'left', '')
+      setStyle(playhead, 'transform', `translateX(${Math.round((time / DURATION) * laneWidth * dpr) / dpr}px)`)
+    } else {
+      setStyle(playhead, 'transform', '')
+      setStyle(playhead, 'left', `${(time / DURATION) * 100}%`)
+    }
   }
 
   function render(time) {
