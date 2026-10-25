@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flown, a screen recorder for Windows</title>
+  <meta name="description" content="Flown is a free, open-source screen recorder for Windows. It zooms in where you click, smooths your cursor and puts your recording on a clean background, then exports for YouTube, X, Reels and more.">
+  <meta name="theme-color" content="#f5f4f9">
+  <meta property="og:title" content="Flown, a screen recorder for Windows">
+  <meta property="og:description" content="Screen recordings that zoom in where you click. Free and open source.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/flown-icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="demo.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav wrap">
+    <a class="brand" href="#top" aria-label="Flown home">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <defs>
+          <linearGradient id="brand-bg" x1="3" y1="2" x2="29" y2="30" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#7b3cf0"/><stop offset="0.52" stop-color="#b42ad6"/><stop offset="1" stop-color="#f0468f"/>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="30" height="30" rx="7" fill="url(#brand-bg)"/>
+        <rect x="5" y="7" width="22" height="16" rx="2.5" fill="#fff" fill-opacity="0.16" stroke="#fff" stroke-width="2"/>
+        <g transform="translate(14.34 11) scale(0.135)">
+          <path d="M0 0 V108 L27 82 L44 122 L62 114 L45 75 H82 Z" fill="#2b1061" stroke="#2b1061" stroke-width="26" stroke-linejoin="round"/>
+          <path d="M0 0 V108 L27 82 L44 122 L62 114 L45 75 H82 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+        </g>
+      </svg>
+      <span>Flown</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#editor">Editor</a>
+      <a href="#export">Export</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://github.com/samiulakhan12/windows-screen-studio">GitHub</a>
+    </nav>
+    <a class="btn btn-primary btn-small" href="https://github.com/samiulakhan12/windows-screen-studio/releases">Download</a>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <div class="wrap">
+        <h1 class="hero-title">Screen recordings that zoom in where you click.</h1>
+        <div class="hero-row">
+          <p class="hero-lede">Flown is a free screen recorder for Windows. Record a demo the way you normally would. Flown zooms in on your clicks, smooths the cursor and sets the video on a clean background before you open the editor.</p>
+          <div class="hero-actions">
+            <div class="btn-row">
+              <a class="btn btn-primary" href="https://github.com/samiulakhan12/windows-screen-studio/releases">Download for Windows</a>
+              <a class="btn btn-ghost" href="https://github.com/samiulakhan12/windows-screen-studio">Source on GitHub</a>
+            </div>
+            <p class="fine">Open source under the MIT license. Runs on Windows 10 (version 2004 or later) and Windows 11.</p>
+          </div>
+        </div>
+      </div>
+
+      <figure class="demo wrap-wide">
+        <div class="editor" id="editor-demo">
+          <div class="editor-bar" aria-hidden="true">
+            <span class="editor-title">Invoice export</span>
+            <span class="editor-saved">
+              <svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Saved
+            </span>
+            <span class="win-buttons">
+              <svg viewBox="0 0 16 16"><path d="M3 8h10" stroke="currentColor" stroke-width="1.2"/></svg>
+              <svg viewBox="0 0 16 16"><rect x="3.5" y="3.5" width="9" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+              <svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.2"/></svg>
+            </span>
+          </div>
+
+          <div class="stage" id="stage" role="img" aria-label="Preview of a recording of an invoicing app. The camera zooms in on the Export button as it is clicked, pans to the confirmation message, pulls back, then zooms in again while a command is typed.">
+            <div class="frame" id="frame">
+              <div class="scene" id="scene">
+                <div class="wallpaper"></div>
+                <div class="card">
+                  <div class="browser-bar">
+                    <span class="dots"><i></i><i></i><i></i></span>
+                    <span class="address">larkspur.app/invoices</span>
+                  </div>
+                  <div class="app">
+                    <aside class="app-side">
+                      <div class="app-brand"><span class="app-logo"></span>Larkspur</div>
+                      <ul class="app-nav">
+                        <li>Overview</li>
+                        <li class="is-active">Invoices</li>
+                        <li>Customers</li>
+                        <li>Payments</li>
+                        <li>Reports</li>
+                      </ul>
+                      <div class="app-user"><span class="app-avatar">MR</span>Maya Reyes</div>
+                    </aside>
+                    <div class="app-head">
+                      <h2>Invoices</h2>
+                      <p>24 invoices, $48,210 outstanding</p>
+                    </div>
+                    <span class="app-btn app-filter">Filter</span>
+                    <span class="app-btn app-export" id="app-export">Export
+                      <svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <div class="app-table">
+                      <div class="tr th"><span>Client</span><span>Invoice</span><span>Due</span><span class="num">Amount</span><span>Status</span></div>
+                      <div class="tr"><span>Atlas Freight</span><span>INV-2041</span><span>Oct 2</span><span class="num">$6,400.00</span><span><b class="chip chip-late">Overdue</b></span></div>
+                      <div class="tr"><span>Brightline Studio</span><span>INV-2042</span><span>Oct 9</span><span class="num">$2,150.00</span><span><b class="chip chip-paid">Paid</b></span></div>
+                      <div class="tr"><span>Cobalt &amp; Pine</span><span>INV-2043</span><span>Oct 14</span><span class="num">$11,820.00</span><span><b class="chip chip-late">Overdue</b></span></div>
+                      <div class="tr"><span>Daybreak Dental</span><span>INV-2044</span><span>Oct 18</span><span class="num">$940.00</span><span><b class="chip chip-open">Open</b></span></div>
+                      <div class="tr"><span>Eastside Climbing</span><span>INV-2045</span><span>Oct 21</span><span class="num">$3,300.00</span><span><b class="chip chip-paid">Paid</b></span></div>
+                      <div class="tr"><span>Fernhill Books</span><span>INV-2046</span><span>Oct 24</span><span class="num">$1,075.00</span><span><b class="chip chip-late">Overdue</b></span></div>
+                      <div class="tr"><span>Goldcrest Labs</span><span>INV-2047</span><span>Nov 1</span><span class="num">$8,600.00</span><span><b class="chip chip-open">Open</b></span></div>
+                    </div>
+                    <div class="app-menu" id="app-menu">
+                      <span>CSV spreadsheet</span>
+                      <span id="app-menu-pdf">PDF, one per invoice</span>
+                      <span>Send to accountant</span>
+                    </div>
+                    <div class="app-toast" id="toast-pdf">
+                      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#34d399"/><path d="M4.8 8.2l2.1 2.1 4.3-4.6" fill="none" stroke="#0b2e22" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      24 invoices exported as PDF
+                    </div>
+                    <div class="app-toast" id="toast-remind">
+                      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#34d399"/><path d="M4.8 8.2l2.1 2.1 4.3-4.6" fill="none" stroke="#0b2e22" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      Reminders sent to 3 clients
+                    </div>
+                    <div class="app-scrim" id="app-scrim"></div>
+                    <div class="app-palette" id="app-palette">
+                      <div class="pal-input">
+                        <svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                        <span id="pal-typed"></span><i class="caret"></i>
+                      </div>
+                      <span class="pal-item">Create invoice</span>
+                      <span class="pal-item" id="pal-remind">Send reminders to all overdue</span>
+                      <span class="pal-item">Open customer</span>
+                    </div>
+                  </div>
+                  <div class="fx">
+                    <span class="ripple" id="ripple"></span>
+                    <svg class="cursor" id="cursor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M5 2.5v17.2l4.3-4.1 2.8 6.4 3-1.3-2.8-6.3h6.1z" fill="#111" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="keys" id="keys"><kbd>Ctrl</kbd><kbd>K</kbd></div>
+            </div>
+          </div>
+
+          <div class="transport">
+            <button class="play" id="play" type="button" aria-label="Play">
+              <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6L12.8 8z" fill="currentColor"/></svg>
+              <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 3h2.4v10H4.5zM9.1 3h2.4v10H9.1z" fill="currentColor"/></svg>
+            </button>
+            <span class="time"><span id="time-now">0:00.0</span> / 0:12.0</span>
+            <span class="transport-hint">Drag the playhead to scrub</span>
+          </div>
+
+          <div class="timeline">
+            <div class="tl-labels" aria-hidden="true">
+              <span></span><span>Clip</span><span>Zoom</span><span>Keys</span>
+            </div>
+            <div class="tl-lanes" id="lanes">
+              <div class="ruler" aria-hidden="true">
+                <span style="--at:0">0:00</span><span style="--at:1">0:01</span><span style="--at:2">0:02</span><span style="--at:3">0:03</span><span style="--at:4">0:04</span><span style="--at:5">0:05</span><span style="--at:6">0:06</span><span style="--at:7">0:07</span><span style="--at:8">0:08</span><span style="--at:9">0:09</span><span style="--at:10">0:10</span><span style="--at:11">0:11</span>
+              </div>
+              <div class="lane" aria-hidden="true">
+                <span class="seg seg-clip" style="--from:0;--to:12">Invoice export</span>
+                <span class="click-dot" style="--at:1.85"></span>
+                <span class="click-dot" style="--at:3.45"></span>
+                <span class="click-dot" style="--at:9.55"></span>
+              </div>
+              <div class="lane" aria-hidden="true">
+                <span class="seg seg-zoom" style="--from:1.05;--to:4">1.9× auto</span>
+                <span class="seg-link" style="--at:4"></span>
+                <span class="seg seg-zoom" style="--from:4;--to:6.2">1.6×</span>
+                <span class="seg seg-zoom" style="--from:7.45;--to:10.2">1.5× auto</span>
+              </div>
+              <div class="lane" aria-hidden="true">
+                <span class="seg seg-keys" style="--from:7;--to:8.6">Ctrl + K</span>
+              </div>
+              <div class="playhead" id="playhead" role="slider" tabindex="0" aria-label="Playhead" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0" aria-valuetext="0:00.0"></div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="demo-caption">A live copy of the Flown editor, running in your browser. The dots on the clip are clicks. Flown made the auto zooms from those clicks and from the typing; the 1.6× pan was added by hand.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Tracks -->
+    <section class="section" id="editor" aria-labelledby="editor-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="editor-title">Everything is a track you can move.</h2>
+          <p>The editor lays your recording out on a timeline. Flown fills in the zooms when the recording finishes; you decide what stays. Every change can be undone.</p>
+        </div>
+
+        <ol class="tracks">
+          <li class="track-row">
+            <div class="track-copy">
+              <h3>Cut, trim and change speed.</h3>
+              <p>Split at the playhead with <kbd>S</kbd> and cut a range with <kbd>Delete</kbd>. Any clip can play from 0.25× to 8×. Smart speed finds stretches where nothing moves and nothing is said, then speeds them up or cuts them.</p>
+            </div>
+            <div class="mini" aria-hidden="true">
+              <span class="mini-name">Clip</span>
+              <span class="mini-lane">
+                <span class="seg seg-clip" style="--a:0;--b:37"></span>
+                <span class="seg seg-cut" style="--a:37;--b:46">cut</span>
+                <span class="seg seg-clip" style="--a:46;--b:70"></span>
+                <span class="seg seg-fast" style="--a:70;--b:85">4×</span>
+                <span class="seg seg-clip" style="--a:85;--b:100"></span>
+              </span>
+            </div>
+          </li>
+          <li class="track-row">
+            <div class="track-copy">
+              <h3>Zooms come from your clicks.</h3>
+              <p>Each one starts just before the click, holds, and eases out while the camera follows the cursor. Change the level, draw the exact region to fill the frame, or pull back to show more background. Zooms next to each other pan from one to the next.</p>
+            </div>
+            <div class="mini" aria-hidden="true">
+              <span class="mini-name">Zoom</span>
+              <span class="mini-lane">
+                <span class="seg seg-zoom" style="--a:4;--b:28">2×</span>
+                <span class="seg seg-zoom" style="--a:28;--b:50">1.6× auto</span>
+                <span class="seg-link" style="--at:28"></span>
+                <span class="seg seg-zoom seg-dashed" style="--a:66;--b:86">0.8×</span>
+              </span>
+            </div>
+          </li>
+          <li class="track-row">
+            <div class="track-copy">
+              <h3>Add labels, and show the shortcuts you pressed.</h3>
+              <p>Press <kbd>T</kbd>, type, and drag the text into place on the preview. Shortcuts like <kbd>Ctrl</kbd> + <kbd>C</kbd> show up as keycaps. Ordinary typing is never recorded.</p>
+            </div>
+            <div class="mini" aria-hidden="true">
+              <span class="mini-name">Text</span>
+              <span class="mini-lane">
+                <span class="seg seg-keys" style="--a:8;--b:36">Click here</span>
+                <span class="seg seg-keys" style="--a:52;--b:68">Ctrl + C</span>
+              </span>
+            </div>
+          </li>
+          <li class="track-row">
+            <div class="track-copy">
+              <h3>Point at things, and hide what shouldn’t be seen.</h3>
+              <p>Arrows, boxes, ellipses and a highlighter stay pinned to the content as the camera moves. Blur or pixelate passwords and email addresses, or dim everything outside a spotlight that follows the cursor.</p>
+            </div>
+            <div class="mini" aria-hidden="true">
+              <span class="mini-name">Shapes</span>
+              <span class="mini-lane">
+                <span class="seg seg-shape" style="--a:5;--b:27">Arrow</span>
+                <span class="seg seg-blur" style="--a:33;--b:56">Blur</span>
+                <span class="seg seg-spot" style="--a:62;--b:94">Spotlight</span>
+              </span>
+            </div>
+          </li>
+          <li class="track-row">
+            <div class="track-copy">
+              <h3>Open with a title, and split long videos into chapters.</h3>
+              <p>Title cards come centered, big or as a lower third. Add a chapter with <kbd>M</kbd>. Chapters are written into the exported file and can be copied as YouTube timestamps.</p>
+            </div>
+            <div class="mini" aria-hidden="true">
+              <span class="mini-name">Titles</span>
+              <span class="mini-lane">
+                <span class="seg seg-title" style="--a:0;--b:20">Welcome</span>
+                <span class="flag" style="--at:0"></span>
+                <span class="flag" style="--at:41"></span>
+                <span class="flag" style="--at:74"></span>
+              </span>
+            </div>
+          </li>
+          <li class="track-row">
+            <div class="track-copy">
+              <h3>Captions from what you said.</h3>
+              <p>Generate them with your own OpenAI or Gemini key, then correct any line on its own track. Choose from five styles, including word-by-word highlighting, or export SRT and VTT files.</p>
+            </div>
+            <div class="mini" aria-hidden="true">
+              <span class="mini-name">Captions</span>
+              <span class="mini-lane">
+                <span class="seg seg-cap" style="--a:2;--b:32">Here’s the dashboard.</span>
+                <span class="seg seg-cap" style="--a:34;--b:62">Click Export.</span>
+                <span class="seg seg-cap" style="--a:64;--b:96">Edit any line.</span>
+              </span>
+            </div>
+          </li>
+          <li class="track-row">
+            <div class="track-copy">
+              <h3>Put your webcam where it helps.</h3>
+              <p>A circle, rounded or square bubble with a border and shadow. The background behind you can be blurred, on your PC. Switch layouts as you go: bubble, side by side, large camera or camera only.</p>
+            </div>
+            <div class="mini" aria-hidden="true">
+              <span class="mini-name">Camera</span>
+              <span class="mini-lane">
+                <span class="seg seg-cam" style="--a:0;--b:31">Side by side</span>
+                <span class="seg seg-cam" style="--a:31;--b:54">Large</span>
+                <span class="seg seg-cam" style="--a:54;--b:75">Camera</span>
+                <span class="seg seg-cam" style="--a:75;--b:100">Screen</span>
+              </span>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Set up once -->
+    <section class="section section-tight" aria-labelledby="setup-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="setup-title">Set it up once.</h2>
+          <p>Save your recording setup as a preset and your look as the default style. Every new recording starts the way you like it.</p>
+        </div>
+        <div class="kit">
+          <div class="kit-group">
+            <h3>Recording</h3>
+            <ul>
+              <li>A full screen, one window, or an area you drag out</li>
+              <li>Microphone and system audio, kept as separate tracks</li>
+              <li>30 or 60 fps, with a 3-2-1 countdown</li>
+              <li>Your own hotkeys for stop, pause and “zoom here”</li>
+              <li>Pauses itself when you step away</li>
+              <li>Hides desktop icons while you record</li>
+              <li>Written to disk as you go, so a crash doesn’t lose the take</li>
+            </ul>
+          </div>
+          <div class="kit-group">
+            <h3>Cursor</h3>
+            <ul>
+              <li>Smoothed movement and an adjustable size</li>
+              <li>Keeps the real cursor shape, or switch to a macOS, Windows, white, black or custom cursor</li>
+              <li>Ripple, ring or pulse on every click</li>
+              <li>Optional click sounds</li>
+              <li>Hides when you stop moving it</li>
+            </ul>
+          </div>
+          <div class="kit-group">
+            <h3>Style</h3>
+            <ul>
+              <li>Gradients, solid colours, your own image, 16 wallpapers and moving backgrounds</li>
+              <li>Browser, laptop, monitor and phone frames</li>
+              <li>Padding, corners, glass borders and soft, hard or glow shadows</li>
+              <li>3D tilt</li>
+              <li>Your logo or a watermark</li>
+              <li>Eight built-in looks, plus your own</li>
+            </ul>
+          </div>
+          <div class="kit-group">
+            <h3>Sound</h3>
+            <ul>
+              <li>Separate volume for your mic and your computer’s sound</li>
+              <li>Noise reduction and even loudness</li>
+              <li>Fade in and out</li>
+              <li>Background music that gets quieter while you talk</li>
+              <li>Remove silences in one step</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Export -->
+    <section class="section" id="export" aria-labelledby="export-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="export-title">Export for where it’s going.</h2>
+          <p>Pick a destination and Flown sets the shape, size and frame rate. The recording is reframed to fit, background and all.</p>
+        </div>
+        <ul class="formats">
+          <li class="format">
+            <span class="format-frame" style="--w:16;--h:9"><span class="format-card"></span></span>
+            <span class="format-ratio">16:9</span>
+            <span class="format-where">YouTube in 1080p or 4K at 60 fps, X, LinkedIn</span>
+          </li>
+          <li class="format">
+            <span class="format-frame" style="--w:9;--h:16;--card:86%"><span class="format-card"></span></span>
+            <span class="format-ratio">9:16</span>
+            <span class="format-where">Instagram Reels, TikTok, YouTube Shorts</span>
+          </li>
+          <li class="format">
+            <span class="format-frame format-square" style="--w:1;--h:1;--card:80%"><span class="format-card"></span></span>
+            <span class="format-ratio">1:1</span>
+            <span class="format-where">Square posts</span>
+          </li>
+          <li class="format">
+            <span class="format-frame format-small" style="--w:16;--h:9"><span class="format-card"></span></span>
+            <span class="format-ratio">Small</span>
+            <span class="format-where">A GIF for Slack under 15 MB, or email under 25 MB</span>
+          </li>
+        </ul>
+        <p class="export-specs">MP4, MOV, WebM, GIF or audio-only M4A, from 720p to 4K at 30 or 60 fps. Flown encodes on your graphics card when it can (NVIDIA, Intel or AMD) and falls back to software when it can’t. Export several sizes in one go, aim for a file size, or copy the finished video to the clipboard and paste it straight into a chat.</p>
+      </div>
+    </section>
+
+    <!-- Keyboard -->
+    <section class="section section-tight" aria-labelledby="keys-title">
+      <div class="wrap split">
+        <div class="section-head">
+          <h2 id="keys-title">Edit without reaching for the mouse.</h2>
+          <p>Every command is in the palette, and every shortcut can be changed with <kbd>Ctrl</kbd> + <kbd>/</kbd>.</p>
+        </div>
+        <dl class="shortcuts">
+          <div><dt><kbd>Space</kbd></dt><dd>Play or pause</dd></div>
+          <div><dt><kbd>S</kbd></dt><dd>Split the clip at the playhead</dd></div>
+          <div><dt><kbd>Z</kbd></dt><dd>Add a zoom at the playhead</dd></div>
+          <div><dt><kbd>1</kbd> to <kbd>4</kbd></dt><dd>Set the zoom to 1.25×, 1.5×, 2× or 3×</dd></div>
+          <div><dt><kbd>T</kbd></dt><dd>Add text</dd></div>
+          <div><dt><kbd>Shift</kbd> + <kbd>T</kbd></dt><dd>Add a title card</dd></div>
+          <div><dt><kbd>M</kbd></dt><dd>Add a chapter</dd></div>
+          <div><dt><kbd>Ctrl</kbd> + <kbd>K</kbd></dt><dd>Search every command</dd></div>
+          <div><dt><kbd>Ctrl</kbd> + <kbd>E</kbd></dt><dd>Export</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Privacy -->
+    <section class="section band" id="privacy" aria-labelledby="privacy-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="privacy-title">Your recordings stay on your PC.</h2>
+          <p>Flown has no account, no sign-in and no server of its own. It only talks to the internet when you ask it to.</p>
+        </div>
+        <ul class="facts">
+          <li>
+            <h3>Saved where you can find them</h3>
+            <p>Each recording is a folder in your Videos folder: the video, the cursor data and the project file.</p>
+          </li>
+          <li>
+            <h3>Your own AI key, if you want one</h3>
+            <p>Captions and transcript tools use your OpenAI, Gemini or Claude key. It’s encrypted with your Windows account, and requests go straight to that provider.</p>
+          </li>
+          <li>
+            <h3>Background blur runs locally</h3>
+            <p>The model that separates you from the room behind you ships inside the app, so your camera feed isn’t uploaded anywhere.</p>
+          </li>
+          <li>
+            <h3>Shortcuts, never what you type</h3>
+            <p>Flown notes key combinations like <kbd>Ctrl</kbd> + <kbd>C</kbd> for the keystroke overlay, and only the timing of typing for zooms. You can turn this off before you record.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="wrap faq-wrap">
+        <h2 id="faq-title">Questions</h2>
+        <div class="faq">
+          <details>
+            <summary>Is Flown free?</summary>
+            <p>Yes. Flown is open source under the MIT license. There’s no account, no subscription and no watermark unless you add your own.</p>
+          </details>
+          <details>
+            <summary>Which versions of Windows does it run on?</summary>
+            <p>Windows 10 version 2004 or later, and Windows 11. On these, Flown records screens, areas and single windows without the Windows cursor, so it can draw its own smooth one in its place.</p>
+          </details>
+          <details>
+            <summary>Why does Windows warn me when I run the installer?</summary>
+            <p>The installer isn’t code-signed yet, so Microsoft Defender SmartScreen shows “Windows protected your PC” the first time you run it. Select <strong>More info</strong>, then <strong>Run anyway</strong>.</p>
+          </details>
+          <details>
+            <summary>Can I record a single window?</summary>
+            <p>Yes. Flown follows the window as it moves or resizes, and keeps auto zoom, click ripples and the smooth cursor working inside it.</p>
+          </details>
+          <details>
+            <summary>What happens if the app crashes while I’m recording?</summary>
+            <p>The recording is written to disk as you go. Anything that didn’t finish shows up under <strong>Unfinished recordings</strong> on the home screen, where you can recover it.</p>
+          </details>
+          <details>
+            <summary>Is it finished?</summary>
+            <p>Flown is at version 0.1. The Windows capture helper and graphics-card encoding are the newest parts and still need testing on more PCs. If either one fails, Flown falls back to standard capture and software encoding. If something breaks on your machine, <a href="https://github.com/samiulakhan12/windows-screen-studio/issues">open an issue</a> with your Windows version and graphics card.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing -->
+    <section class="closing" aria-labelledby="closing-title">
+      <div class="wrap">
+        <h2 id="closing-title">Record your next demo with Flown.</h2>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="https://github.com/samiulakhan12/windows-screen-studio/releases">Download for Windows</a>
+          <a class="btn btn-ghost" href="https://github.com/samiulakhan12/windows-screen-studio">Source on GitHub</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer wrap">
+    <p>Flown is open source under the MIT license. Built with Electron, React, Rust and ffmpeg.</p>
+    <ul>
+      <li><a href="https://github.com/samiulakhan12/windows-screen-studio">GitHub</a></li>
+      <li><a href="https://github.com/samiulakhan12/windows-screen-studio/issues">Report a problem</a></li>
+      <li><a href="https://github.com/samiulakhan12/windows-screen-studio/blob/HEAD/docs/ROADMAP.md">Roadmap</a></li>
+    </ul>
+  </footer>
+</body>
+</html>
