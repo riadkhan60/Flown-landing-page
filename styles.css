@@ -20,6 +20,47 @@
   unicode-range: U+A2-A3, U+A5, U+A9, U+AB, U+AE, U+B0-B1, U+B7, U+BB, U+C0-D6, U+D8-FF, U+131, U+152-153, U+201A, U+201E, U+2032-2033, U+2039-203A, U+20AC, U+2122, U+2212;
 }
 
+/* Arial scaled to Archivo's widths and line metrics, so text laid out before the font
+   arrives takes the same space and nothing moves when it swaps in. Liberation Sans has
+   Arial's metrics. Sizes were measured on this page's own text. */
+@font-face {
+  font-family: 'Archivo Fallback';
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans');
+  font-weight: 100 549;
+  size-adjust: 98.4%;
+  ascent-override: 89.23%;
+  descent-override: 21.34%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Archivo Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('LiberationSans-Bold');
+  font-weight: 550 900;
+  size-adjust: 95.1%;
+  ascent-override: 92.32%;
+  descent-override: 22.08%;
+  line-gap-override: 0%;
+}
+/* The headings are set at 'wdth' 118, far wider than Arial, and the 780 hero wider still. */
+@font-face {
+  font-family: 'Archivo Wide Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('LiberationSans-Bold');
+  font-weight: 100 769;
+  size-adjust: 118.2%;
+  ascent-override: 74.28%;
+  descent-override: 17.77%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Archivo Wide Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('LiberationSans-Bold');
+  font-weight: 770 900;
+  size-adjust: 121%;
+  ascent-override: 72.56%;
+  descent-override: 17.36%;
+  line-gap-override: 0%;
+}
+
 :root {
   /* Page */
   --paper: #f5f4f9;
@@ -52,8 +93,9 @@
   --playhead: #ff4d6d;
 
   /* Type */
-  --font: 'Archivo', 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
-  --wide: 'wdth' 118;
+  --font: 'Archivo', 'Archivo Fallback', 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+  --font-wide: 'Archivo', 'Archivo Wide Fallback', 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+  --wide: 'wdth' 118;  /* use with --font-wide */
   --step--1: 0.875rem;  /* 14 */
   --step-0: 1.0625rem;  /* 17 */
   --step-1: clamp(1.125rem, 1rem + 0.5vw, 1.3125rem);  /* 18 to 21 */
@@ -171,6 +213,7 @@ kbd {
   align-items: center;
   gap: 10px;
   margin-right: auto;
+  font-family: var(--font-wide);
   font-size: 1.25rem;
   font-weight: 760;
   font-variation-settings: 'wdth' 125;
@@ -186,6 +229,7 @@ kbd {
 .hero { padding-top: clamp(40px, 7vw, 88px); }
 .hero-title {
   max-width: 13.5em;
+  font-family: var(--font-wide);
   font-size: var(--step-3);
   font-weight: 780;
   font-variation-settings: var(--wide);
@@ -641,6 +685,7 @@ kbd {
 .section-head h2,
 .faq-wrap h2,
 .closing h2 {
+  font-family: var(--font-wide);
   font-size: var(--step-2);
   font-weight: 740;
   font-variation-settings: var(--wide);
@@ -712,6 +757,7 @@ kbd {
   padding-bottom: 12px;
   margin-bottom: 4px;
   border-bottom: 2px solid var(--ink);
+  font-family: var(--font-wide);
   font-size: var(--step-1);
   font-weight: 700;
   font-variation-settings: var(--wide);
@@ -766,6 +812,7 @@ kbd {
   box-shadow: 0 6px 16px rgba(22, 6, 60, 0.35);
 }
 .format-ratio {
+  font-family: var(--font-wide);
   font-size: var(--step-1);
   font-weight: 700;
   font-variation-settings: var(--wide);
