@@ -41,11 +41,12 @@ or later and nothing else; there is no `npm install`.
 
 - `styles.css` goes into a `<style>` element, so the first paint doesn't wait for a second download.
 - The files the page loads (`demo.js`, the favicon, the fonts) are copied into `dist/immutable/`
-  under names that carry their content hash (`demo.6bca9488fb.js`), and the page's references are
+  under names that carry their content hash (`demo.<hash>.js`), and the page's references are
   updated to match. A name that already holds its hash, like the fonts', is kept. `assets/` is also
   copied as it is, so the font licence and any outside links to those files keep working.
 - Comments, and whitespace that can't change the result, are removed from the HTML and the CSS.
-  Nothing else is rewritten: text, values, strings and `url()`s are copied as they are.
+  Apart from pointing `src`, `href` and `url()`s at the published copies, nothing else is
+  rewritten: text, values and strings are copied as they are.
 - The build stops if the page refers to a local file that doesn't exist.
 
 The build prints the page's compressed size. Keep it under about 14 KB as Vercel serves it, which is

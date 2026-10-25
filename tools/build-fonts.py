@@ -38,12 +38,9 @@ OUT = os.path.join(ROOT, 'assets', 'fonts')
 
 # Every character the page could reasonably use; whatever the page doesn't use goes in ext.
 MARGIN = (
-    set(range(0x20, 0x7F))
-    | {0xA0, 0xAD, 0xD7}                   # nbsp, soft hyphen, ×
-    | set(map(ord, '–—‘’“”•…'))
-    | set(map(ord, '©®°·«»÷±£¥¢'))
-    | {u for u in range(0xC0, 0x100) if chr(u).isalpha()}
-    | set(map(ord, 'ıŒœ‚„′″‹›€™−'))
+    set(range(0x20, 0x7F))                 # ASCII
+    | set(range(0xA0, 0x100))              # Latin-1
+    | set(map(ord, '–—‘’“”•…ıŒœ‚„′″‹›€™−↑↓'))
 )
 
 
@@ -98,7 +95,9 @@ def page_chars():
         p.feed(f.read())
     chars = set(p.chars)
     with open(os.path.join(ROOT, 'demo.js'), encoding='utf-8') as f:
-        for m in re.finditer(r"'([^'\\\n]*)'|\"([^\"\\\n]*)\"|`([^`]*)`", f.read()):
+        # Quoted strings only: the template literals are CSS values, and the clock's characters
+        # are added below.
+        for m in re.finditer(r"'([^'\\\n]*)'|\"([^\"\\\n]*)\"", f.read()):
             chars |= set(next((g for g in m.groups() if g), ''))
     return {c for c in chars if not c.isspace()} | set('0123456789:.')  # the demo's clock
 
@@ -124,7 +123,8 @@ def main(src):
         print(f'{os.path.relpath(path, ROOT)}  {os.path.getsize(path)} bytes')
         print(f'  unicode-range: {unicode_range(cmaps[name])};')
     for old in os.listdir(OUT):
-        if old.startswith('archivo-') and old.endswith('.woff2') and old not in written:
+        # Only files this script names, so a source font kept here survives.
+        if re.fullmatch(r'archivo(-ext)?-[0-9a-f]{8}\.woff2', old) and old not in written:
             os.remove(os.path.join(OUT, old))
 
     chars = page_chars()
